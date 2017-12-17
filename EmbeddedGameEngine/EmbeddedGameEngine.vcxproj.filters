@@ -13,5 +13,213 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Quelldateien\Engine">
+      <UniqueIdentifier>{f7398bec-3aac-4a76-a56e-013ce41a30ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Portable">
+      <UniqueIdentifier>{6f88fad1-b2f4-4479-b2ec-38bd493ed7de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\GFX">
+      <UniqueIdentifier>{d24655a2-a4ae-435d-9626-48acf58431f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Sound">
+      <UniqueIdentifier>{030f3205-9ab3-454a-b8fd-ae34771d78eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Messaging">
+      <UniqueIdentifier>{fa2c4d23-e21f-4f3a-8ea2-02ee3cddf63b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Scene">
+      <UniqueIdentifier>{de1e53f9-5a39-425d-a115-1b436b1c24b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Camera">
+      <UniqueIdentifier>{2c19609f-f17d-43f8-8bfa-ca2f1755c9d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Input">
+      <UniqueIdentifier>{aee7e22b-5d11-4ad0-ba6f-2df5c897e6ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\GameLogic">
+      <UniqueIdentifier>{4381ad1e-66fb-47de-bcf1-b9bcb236a9fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Utils">
+      <UniqueIdentifier>{2d06bbce-0501-424e-aa10-43957b35c00e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Utils\Math">
+      <UniqueIdentifier>{a1c68fc3-d314-4701-92d0-b0a3543db4e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\OS">
+      <UniqueIdentifier>{920d4364-4d91-4680-bed5-ef25319afa87}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Quelldateien\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="GFX.cpp">
+      <Filter>Quelldateien\GFX</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageBus.cpp">
+      <Filter>Quelldateien\Messaging</Filter>
+    </ClCompile>
+    <ClCompile Include="DisplayDriver.cpp">
+      <Filter>Quelldateien\GFX</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Quelldateien\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Quelldateien\GameLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="Behaviour.cpp">
+      <Filter>Quelldateien\GameLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Quelldateien\GFX</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Quelldateien\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="InputDriver.cpp">
+      <Filter>Quelldateien\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Quelldateien\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Quelldateien\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundClip.cpp">
+      <Filter>Quelldateien\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundDriver.cpp">
+      <Filter>Quelldateien\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Gamepad.cpp">
+      <Filter>Quelldateien\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="SDLDisplayDriver.cpp">
+      <Filter>Quelldateien\Portable</Filter>
+    </ClCompile>
+    <ClCompile Include="SDLInputDriver.cpp">
+      <Filter>Quelldateien\Portable</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Quelldateien\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Quelldateien\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowsOSDriver.cpp">
+      <Filter>Quelldateien\Portable</Filter>
+    </ClCompile>
+    <ClCompile Include="SDLSoundDriver.cpp">
+      <Filter>Quelldateien\Portable</Filter>
+    </ClCompile>
+    <ClCompile Include="OSDriver.cpp">
+      <Filter>Quelldateien\OS</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystemDriver.cpp">
+      <Filter>Quelldateien\OS</Filter>
+    </ClCompile>
+    <ClCompile Include="pipe.c">
+      <Filter>Quelldateien\Portable</Filter>
+    </ClCompile>
+    <ClCompile Include="Background.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalSystems.cpp">
+      <Filter>Quelldateien\Engine</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GFX.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageBus.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayDriver.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Behaviour.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="InputDriver.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundClip.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundDriver.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Gamepad.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix3x3.hpp">
+      <Filter>Quelldateien\Utils\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Quaternion.hpp">
+      <Filter>Quelldateien\Utils\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.hpp">
+      <Filter>Quelldateien\Utils\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.hpp">
+      <Filter>Quelldateien\Utils\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="SDLDisplayDriver.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SDLSoundDriver.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SDLInputDriver.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="OSDriver.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystemDriver.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="OSTypes.h">
+      <Filter>Quelldateien\Portable</Filter>
+    </ClInclude>
+    <ClInclude Include="pipe.h">
+      <Filter>Quelldateien\Portable</Filter>
+    </ClInclude>
+    <ClInclude Include="Background.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowsOSDriver.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalSystems.h">
+      <Filter>Quelldateien\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

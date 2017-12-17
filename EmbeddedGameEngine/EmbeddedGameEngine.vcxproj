@@ -69,7 +69,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\Users\Maxi\Desktop\Programming_stuff\SDL2-2.0.7\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Maxi\Desktop\Programming_stuff\SDL2-2.0.7\lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -77,6 +80,10 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -115,6 +122,64 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Background.cpp" />
+    <ClCompile Include="Behaviour.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DisplayDriver.cpp" />
+    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="FileSystemDriver.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Gamepad.cpp" />
+    <ClCompile Include="GFX.cpp" />
+    <ClCompile Include="GlobalSystems.cpp" />
+    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="InputDriver.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MessageBus.cpp" />
+    <ClCompile Include="OSDriver.cpp" />
+    <ClCompile Include="pipe.c" />
+    <ClCompile Include="WindowsOSDriver.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SDLDisplayDriver.cpp" />
+    <ClCompile Include="SDLInputDriver.cpp" />
+    <ClCompile Include="SDLSoundDriver.cpp" />
+    <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="SoundClip.cpp" />
+    <ClCompile Include="SoundDriver.cpp" />
+    <ClCompile Include="Sprite.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Background.h" />
+    <ClInclude Include="Behaviour.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="DisplayDriver.h" />
+    <ClInclude Include="Engine.h" />
+    <ClInclude Include="FileSystemDriver.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Gamepad.h" />
+    <ClInclude Include="GFX.h" />
+    <ClInclude Include="GlobalSystems.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="InputDriver.h" />
+    <ClInclude Include="Matrix3x3.hpp" />
+    <ClInclude Include="MessageBus.h" />
+    <ClInclude Include="WindowsOSDriver.h" />
+    <ClInclude Include="OSDriver.h" />
+    <ClInclude Include="OSTypes.h" />
+    <ClInclude Include="pipe.h" />
+    <ClInclude Include="Quaternion.hpp" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SDLDisplayDriver.h" />
+    <ClInclude Include="SDLInputDriver.h" />
+    <ClInclude Include="SDLSoundDriver.h" />
+    <ClInclude Include="Sound.h" />
+    <ClInclude Include="SoundClip.h" />
+    <ClInclude Include="SoundDriver.h" />
+    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Vector2.hpp" />
+    <ClInclude Include="Vector3.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
