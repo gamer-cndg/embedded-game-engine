@@ -1,12 +1,10 @@
 #include "Gamepad.h"
 
-
-
-Gamepad::Gamepad()
+GamePad::GamePad()
 {
 }
 
 
-Gamepad::~Gamepad()
+GamePad::~GamePad()
 {
 }

@@ -1,9 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-
-/* Describes the possible color formats */
-enum class ColorFormat { R8G8B8, R8G8B8A8 };
+#include "ColorFormat.h"
 
 /* Describes the blending modes */
 enum class BlendMode { Overwrite, Add, Subtract, Multiply  };
@@ -34,12 +32,12 @@ public:
 	/* Manipulate frame buffer methods */
 
 	/* Draw bitmap at (x,y) of dimensions width x height from the graphics data pointed to by data with given blend mode */
-	virtual void DrawBitmap(int x, int y, uint8_t* data, int width, int height, ColorFormat source_format, BlendMode blend_mode) = 0;
+	virtual void DrawBitmap(int x, int y, const uint8_t* data, int width, int height, ColorFormat source_format, BlendMode blend_mode) = 0;
 
 	/* delete all contents in the framebuffer */
 	virtual void ClearFramebuffer() = 0;
 
-	DisplayDriver();
-	~DisplayDriver();		
+	DisplayDriver() {}
+	~DisplayDriver() {}
 private:
 };

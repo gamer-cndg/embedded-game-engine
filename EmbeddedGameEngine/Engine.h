@@ -20,5 +20,8 @@ public:
 	~Engine();
 private:
 	MessageBus mbus;
+	GFX gfx;
+
+	OS_TaskHandle gfxThread;
 };
 

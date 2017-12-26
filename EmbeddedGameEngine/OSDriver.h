@@ -52,6 +52,6 @@ public:
 	virtual bool MutexDelete(OS_MutexHandle mutex) = 0;
 
 	OSDriver();
-	~OSDriver();
+	virtual ~OSDriver();
 };
 

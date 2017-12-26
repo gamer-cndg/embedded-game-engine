@@ -3,6 +3,9 @@
 #include <iostream>
 #include <stdio.h>
 
+#define DISPLAY_WIDTH 320
+#define DISPLAY_HEIGHT 240
+
 static inline void CheckSDL(int expr, std::string err)  {
 	if( (expr) != 0) { 
 		std::cerr << err << "failed!" << std::endl; 
@@ -12,8 +15,8 @@ static inline void CheckSDL(int expr, std::string err)  {
 SDLDisplayDriver::SDLDisplayDriver()
 {
 	displayInfo.color_format = ColorFormat::R8G8B8;
-	displayInfo.width = 800;
-	displayInfo.height = 600;
+	displayInfo.width = DISPLAY_WIDTH;
+	displayInfo.height = DISPLAY_HEIGHT;
 	displayInfo.maxFPS = 60;
 }
 
@@ -29,7 +32,7 @@ Display SDLDisplayDriver::DescribeDisplay()
 bool SDLDisplayDriver::Initialize()
 {
 	//Init Window
-	SDL_Init(SDL_INIT_VIDEO);              // Initialize SDL2
+	SDL_Init(SDL_INIT_EVERYTHING);              // Initialize SDL2
 
 	// Create an application window with the following settings:
 	window = SDL_CreateWindow(
@@ -87,23 +90,45 @@ void SDLDisplayDriver::DrawFramebuffer()
 	SDL_RenderPresent(Main_Renderer);
 }
 
-void SDLDisplayDriver::DrawBitmap(int x, int y, uint8_t * data, int width, int height, ColorFormat source_format, BlendMode blend_mode)
+void SDLDisplayDriver::DrawBitmap(int x, int y, const uint8_t * data, int width, int height, ColorFormat source_format, BlendMode blend_mode)
 {
 	SDL_Rect r;
 	r.x = x;
 	r.y = y;
 	r.w = width;
 	r.h = height;
-	std::cout << "texture pitch: " << texturePitch << std::endl;
+
+	//clipping
+	if(r.x < 0) { r.w += r.x; r.x = 0; }
+	if(r.y < 0) { r.h += r.y; r.y = 0; }
+	if(r.x + r.w > DISPLAY_WIDTH)
+		r.w = DISPLAY_WIDTH - x;
+	if(r.y + r.h > DISPLAY_HEIGHT)
+		r.h = DISPLAY_HEIGHT - y;
+
+	//std::cout << "(x,y,w,h) = " << r.x << "," << r.y << "," << r.w <<","<<r.h << std::endl;
+	//std::cout << "texture pitch: " << texturePitch << std::endl;
 	CheckSDL(SDL_UpdateTexture(ScreenTexture, &r, data, 4 * width ), "UpdateTexture");
 }
 
+const static uint32_t bigZeroBuf[1920*1080] = {0};
+
+
 void SDLDisplayDriver::ClearFramebuffer()
 {
+	//SDL_SetRenderDrawColor(Main_Renderer, 0 , 0 , 0, 0);
+	//SDL_RenderDrawRect(Main_Renderer, NULL);
+	DrawBitmap(0,0, (const uint8_t*)bigZeroBuf, displayInfo.width, displayInfo.height, ColorFormat::R8G8B8A8, BlendMode::Overwrite);
 }
+
+
+#include <iostream>
 
 void SDLDisplayDriver::Destroy()
 {
+
+	std::cout << "Destroying window now " << std::endl;
+
 	// Close and destroy the window
 	SDL_DestroyWindow(window);
 

@@ -9,11 +9,11 @@ public:
 	SDLDisplayDriver();
 	~SDLDisplayDriver();
 
-	// Geerbt über DisplayDriver
+	// Geerbt ueber DisplayDriver
 	virtual Display DescribeDisplay() override;
 	virtual bool Initialize() override;
 	virtual void DrawFramebuffer() override;
-	virtual void DrawBitmap(int x, int y, uint8_t * data, int width, int height, ColorFormat source_format, BlendMode blend_mode) override;
+	virtual void DrawBitmap(int x, int y, const uint8_t * data, int width, int height, ColorFormat source_format, BlendMode blend_mode) override;
 	virtual void ClearFramebuffer() override;
 	virtual void Destroy() override;
 
