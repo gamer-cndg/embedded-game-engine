@@ -28,6 +28,10 @@ public:
 		return currScene->GetAllGameObjects();
 	}
 
+	static Scene* GetCurrentScene() {
+		return currScene;
+	}
+
 	SceneManager();
 	~SceneManager();
 

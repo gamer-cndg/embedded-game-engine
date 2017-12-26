@@ -35,6 +35,11 @@ void LinuxOSDriver::DestroyCurrentThread() {
 	pthread_cancel(pthread_self());
 }
 
+void LinuxOSDriver::JoinThread(OS_TaskHandle taskHandle)  {
+	pthread_join(taskHandle, NULL);
+}
+
+
 #include "MessageBusMessage.h"
 OS_QueueHandle LinuxOSDriver::CreateQueue(int length, size_t element_size) {
 	//TODO: better implementation which accepts arbitrary size

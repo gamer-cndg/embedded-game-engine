@@ -13,7 +13,7 @@ public:
 	void SetGameObject(GameObject* g) { gameObject = g; }
 
 	Behaviour();
-	~Behaviour();
+	virtual ~Behaviour();
 
 protected:
 	GameObject* gameObject;

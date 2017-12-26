@@ -8,6 +8,8 @@
 #include "SoundDriver.h"
 #include "MessageBus.h"
 #include "OSDriver.h"
+#include "Scene.h"
+#include "SceneManager.h"
 
 class Engine
 {

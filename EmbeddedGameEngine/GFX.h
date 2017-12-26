@@ -3,6 +3,7 @@
 #include "MessageBus.h"
 #include "DisplayDriver.h"
 #include "SceneManager.h"
+#include "SpriteManager.h"
 #include <array>
 #include <algorithm>
 #include <vector>
@@ -25,13 +26,14 @@ public:
 
 	static void DrawGameObject(GameObject* g) {
 		//Get the sprite
-		const void* pixelData = g->sprite->GetPixelData();
-		int width = g->sprite->GetWidth();
-		int height = g->sprite->GetHeight();
-		ColorFormat cFormat = g->sprite->GetColorFormat();
+		Sprite* s = SpriteManager::GetSprite(g->spriteID);
+		const void* pixelData = s->GetPixelData();
+		int width = s->GetWidth();
+		int height = s->GetHeight();
+		ColorFormat cFormat = s->GetColorFormat();
 		int x = (int) g->position.X;
 		int y = (int) g->position.Y;
-		const char* name = (const char*) g->instanceName;
+		//const char* name = (const char*) g->instanceName;
 		//std::cout << "drawing " << name << " at " << x << "," << y << std::endl;
 
 		//Test: do scripts processing in GFX thread..

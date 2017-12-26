@@ -4,6 +4,7 @@
 #include "Scene.h"
 #include "SceneManager.h"
 #include "Input.h"
+#include "Asset.h"
 
 /* Include platform specific implementations */
 //#include "WindowsOSDriver.h"
@@ -17,31 +18,28 @@ uint32_t myRect[100 * 100 ] = { 0 };
 //right side
 uint32_t myRect2[800 * 300] = { 0 };
 
-GameObject* player = nullptr;
-
 class MoveBehavior: public Behaviour {
 public:
 	void Update() {
 		Vector2 move = Input::GetGamepad(0)->ReadMovement();
-		std::cout << "movement: " << move.X << "," << move.Y << std::endl;
+		//std::cout << "movement: " << move.X << "," << move.Y << std::endl;
 		gameObject->position += move * 3;
 	}
 };
 
 /* implement our class */
 class StartScene : public Scene {
-private:
-	GameObject g;
 public:
 	void InitScene() {
+		//Register all Sprites
+		Sprite* redRect = new Sprite((void*)myRect, 100, 100, ColorFormat::R8G8B8A8);
+		int redRectId = SpriteManager::RegisterSprite(redRect);
+
 		//Construct a test game object and sprite
-		Sprite* s = new Sprite((void*)myRect, 100, 100, ColorFormat::R8G8B8A8);
-		g.sprite = s;
-		g.SetName("Test obj");
-		g.position = Vector2(0,0);
-		g.layer = 0;
-		g.AddScript(new MoveBehavior());
-		AddObject(&g);
+		Asset a(redRectId, "testobj", 0);
+		GameObject* g = a.Instantiate(Vector2(0,0));
+		g->AddScript(new MoveBehavior());
+		AddObject(g);
 	}
 };
 
@@ -75,20 +73,16 @@ int main(int argc, char *argv[]) {
 
 	StartScene startScene;
 	SceneManager::LoadScene(&startScene);
-	player = (*(startScene.GetAllGameObjects()->begin()));
 
 	SDL_Event evt;
 	bool running = true;
 	while(running) {
 		SDL_WaitEvent(&evt);
-
 		switch(evt.type) {
 		case SDL_QUIT:
 			running = false;
 			break;
 		}
-
-		//SDL_Delay(100);
 	}
 
 	std::cout << "Stoping engine now " << std::endl;

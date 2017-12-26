@@ -24,6 +24,8 @@ public:
 	virtual void DestroyThread(OS_TaskHandle taskHandle) = 0;
 	/* destroy the current thread */
 	virtual void DestroyCurrentThread() = 0; 
+	/* wait for a thread to end (indefinety) TODO: add timeout? */
+	virtual void JoinThread(OS_TaskHandle taskHandle) = 0;
 
 	/* 
 	* Queue creation and managing 

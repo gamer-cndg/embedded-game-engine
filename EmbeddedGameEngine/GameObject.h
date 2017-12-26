@@ -10,7 +10,7 @@ class GameObject
 {
 public:
 	Vector2 position;
-	Sprite* sprite;
+	int spriteID;
 	char instanceName[10];
 	int layer;
 
@@ -33,6 +33,13 @@ public:
 
 	static bool SortByLayer(const GameObject& g1, const GameObject& g2) {
 		return g1.layer < g2.layer;
+	}
+
+	/* Remove every script */
+	void Destruct() {
+		for(Behaviour* b : scripts) {
+			delete b;
+		}
 	}
 
 	GameObject() { }

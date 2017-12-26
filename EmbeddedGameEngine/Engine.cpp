@@ -22,9 +22,15 @@ void Engine::Start()
 void Engine::Stop()
 {
 	GFX::stopGFX = true;
-	OS->Sleep(1000);
+	OS->JoinThread(gfxThread);
 	displayDriver->Destroy();
 	//TODO: unload scene, sprites,...
+	Scene* sc = SceneManager::GetCurrentScene();
+	if(sc != nullptr) {
+		sc->UnloadScene();
+	}
+	//Remove every loaded sprite from the sprite manager
+	SpriteManager::DestroyAllSprites();
 }
 
 Engine::Engine(OSDriver * os, DisplayDriver * display, InputDriver * input, SoundDriver * sound)
