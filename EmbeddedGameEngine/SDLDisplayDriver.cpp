@@ -74,6 +74,7 @@ bool SDLDisplayDriver::Initialize()
 	int w, h;
 	uint32_t* pixels;
 	SDL_QueryTexture(ScreenTexture, &format, nullptr, &w, &h);
+
 	if (SDL_LockTexture(ScreenTexture, nullptr, (void**)&pixels, &texturePitch))
 	{
 		std::cerr << "Locking texture failed!" << std::endl;
@@ -97,6 +98,35 @@ void SDLDisplayDriver::DrawFramebuffer()
 	SDL_RenderPresent(Main_Renderer);
 }
 
+/* alpha blend routine */
+inline unsigned int AlphaBlend(const unsigned int bg, const unsigned int src)
+{
+	unsigned int a = src >> 24;    /* alpha */
+
+	/* If source pixel is transparent, just return the background */
+	if (0 == a)
+		return bg;
+
+	/* alpha blending the source and background colors */
+	unsigned int rb = (((src & 0x00ff00ff) * a) +
+		((bg & 0x00ff00ff) * (0xff - a))) & 0xff00ff00;
+	unsigned int    g  = (((src & 0x0000ff00) * a) +
+		((bg & 0x0000ff00) * (0xff - a))) & 0x00ff0000;
+
+	return (src & 0xff000000) | ((rb | g) >> 8);
+}
+
+void blendcpy(void* dest, void* src, size_t numBytes) {
+	uint32_t* pSrc = (uint32_t*) src;
+	uint32_t* pDst = (uint32_t*) dest;
+	int i = 0;
+	while(numBytes > 0) {
+		pDst[i] = AlphaBlend(pDst[i], pSrc[i]);
+		i++;
+		numBytes -= 4;
+	}
+}
+
 void SDLDisplayDriver::DrawBitmap(int x, int y, const uint8_t * data, int width, int height, ColorFormat source_format, BlendMode blend_mode)
 {
 	/* alternative method using locking textures */
@@ -104,7 +134,7 @@ void SDLDisplayDriver::DrawBitmap(int x, int y, const uint8_t * data, int width,
 	//Which part of the texture to we have to update?
 
 	//from source image
-	int srcX = 0, srcY = 0, srcW = width, srcH = height;
+	int srcX = 0, srcY = 0;
 
 	//for destination texture
 
@@ -150,7 +180,7 @@ void SDLDisplayDriver::DrawBitmap(int x, int y, const uint8_t * data, int width,
 		uint32_t srcPos = srcY * width + srcX;
 
 		//copy the entire row into the framebuffer..
-		memcpy(&pRGB[pixelPos], &pD2[srcPos], numPixels);
+		blendcpy(&pRGB[pixelPos], &pD2[srcPos], numPixels);
 		srcX += r.w;
 
 		/*for(int curX = r.x; curX < r.x + r.w; curX++) {

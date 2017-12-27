@@ -32,8 +32,8 @@ class StartScene : public Scene {
 public:
 	void InitScene() {
 		//Register all Sprites
-		Sprite* redRect = new Sprite((void*)myRect, 20, 20, ColorFormat::R8G8B8A8);
-		//Sprite* redRect = Sprite::FromPNG("/home/pi/Downloads/png/Idle (1).png");
+		//Sprite* redRect = new Sprite((void*)myRect, 20, 20, ColorFormat::R8G8B8A8);
+		Sprite* redRect = Sprite::FromPNG("/home/pi/Downloads/png/Idle (1).png");
 		int redRectId = SpriteManager::RegisterSprite(redRect);
 
 		//Construct a test game object and sprite
@@ -41,6 +41,11 @@ public:
 		GameObject* g = a.Instantiate(Vector2(0,0));
 		g->AddScript(new MoveBehavior());
 		AddObject(g);
+
+		//Add another copy to the scene
+		GameObject* g2 = a.Instantiate(Vector2(50,50));
+		g2->layer = 1; //Draw this object *over* the player
+		AddObject(g2);
 	}
 };
 

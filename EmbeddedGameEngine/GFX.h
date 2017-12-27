@@ -115,11 +115,8 @@ public:
 		    	cout << "DRAWING NEEDED " << duration << " US or " << fps << " FPS" << std::endl;
 		    	cnt = 0;
 		    }
-
 		}
-
 		std::cout << "Exiting GFX thread now " << std::endl;
-
 		THREAD_RET_STATEMENT;
 	}
 
