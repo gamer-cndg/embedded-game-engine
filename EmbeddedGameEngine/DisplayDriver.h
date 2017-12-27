@@ -29,6 +29,10 @@ public:
 	/* Draw current framebuffer */
 	virtual void DrawFramebuffer() = 0; 
 
+	/* methods which lock/unlock the screen if necessary. */
+	virtual void BeginDraw() = 0;
+	virtual void EndDraw() = 0;
+
 	/* Manipulate frame buffer methods */
 
 	/* Draw bitmap at (x,y) of dimensions width x height from the graphics data pointed to by data with given blend mode */

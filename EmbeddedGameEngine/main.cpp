@@ -14,7 +14,7 @@
 #include "SDLSoundDriver.h"
 
 //left side
-uint32_t myRect[100 * 100 ] = { 0 };
+uint32_t myRect[20 * 20] = { 0 };
 //right side
 uint32_t myRect2[800 * 300] = { 0 };
 
@@ -23,7 +23,7 @@ public:
 	void Update() {
 		Vector2 move = Input::GetGamepad(0)->ReadMovement();
 		//std::cout << "movement: " << move.X << "," << move.Y << std::endl;
-		gameObject->position += move * 3;
+		gameObject->position += move * Time::DeltaTime * 100;
 	}
 };
 
@@ -32,7 +32,8 @@ class StartScene : public Scene {
 public:
 	void InitScene() {
 		//Register all Sprites
-		Sprite* redRect = new Sprite((void*)myRect, 100, 100, ColorFormat::R8G8B8A8);
+		Sprite* redRect = new Sprite((void*)myRect, 20, 20, ColorFormat::R8G8B8A8);
+		//Sprite* redRect = Sprite::FromPNG("/home/pi/Downloads/png/Idle (1).png");
 		int redRectId = SpriteManager::RegisterSprite(redRect);
 
 		//Construct a test game object and sprite
@@ -66,7 +67,12 @@ void writeTexture(uint8_t* texture, size_t numBytes, uint8_t r, uint8_t g, uint8
 
 int main(int argc, char *argv[]) {
 
+	//Seed RNG
+	srand(time(NULL));
+
 	writeTexture((uint8_t*)myRect, sizeof(myRect), 0xff, 0x00, 0x00);
+	writeTexture((uint8_t*)myRect + sizeof(myRect)/2 , sizeof(myRect)/2, 0x00, 0xff, 0x00);
+
 	writeTexture((uint8_t*)myRect2, sizeof(myRect2), 0xab, 0x00, 0xbc);
 
 	engine.Start();

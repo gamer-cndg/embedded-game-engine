@@ -10,6 +10,7 @@
 #include <iostream> /* debugging */
 #include "Input.h" /* experimental */
 #include <chrono> /* for FPS measurement */
+#include "Time.h"
 using namespace std;
 using namespace std::chrono;
 
@@ -27,14 +28,25 @@ public:
 	static void DrawGameObject(GameObject* g) {
 		//Get the sprite
 		Sprite* s = SpriteManager::GetSprite(g->spriteID);
+		if(s == nullptr){
+			std::cout << "Gameobject has no sprite assigned!" << std::endl;
+			return;
+		}
+
 		const void* pixelData = s->GetPixelData();
 		int width = s->GetWidth();
 		int height = s->GetHeight();
 		ColorFormat cFormat = s->GetColorFormat();
 		int x = (int) g->position.X;
 		int y = (int) g->position.Y;
-		//const char* name = (const char*) g->instanceName;
-		//std::cout << "drawing " << name << " at " << x << "," << y << std::endl;
+
+#if 0
+		const char* name = (const char*) g->instanceName;
+		std::cout << "drawing " << name
+				<< " at " << x << "," << y
+				<< " sprite " << width << "," << height
+				<< std::endl;
+#endif
 
 		//Test: do scripts processing in GFX thread..
 		g->ProcessScripts();
@@ -44,6 +56,8 @@ public:
 				x, y, (uint8_t*)pixelData,
 				width, height, cFormat,
 				BlendMode::Overwrite);
+
+		//std::cout << "Drawing object ended" << std::endl;
 	}
 
 	static void DrawFrame() {
@@ -80,9 +94,11 @@ public:
 			//Update input
 			Input::ReadInput();
 
+			displayDriver->BeginDraw();
 			displayDriver->ClearFramebuffer();
 			DrawFrame();
 			displayDriver->DrawFramebuffer();
+			displayDriver->EndDraw();
 
 			//Sleep for some number of milliseconds.
 			//OS->Sleep(1);
@@ -91,6 +107,8 @@ public:
 
 		    auto duration = duration_cast<microseconds>( t2 - t1 ).count();
 		    float fps = 1000 / (duration / 1000.0f);
+
+		    Time::DeltaTime = (float)(duration / (1000.0f*1000.0f));
 
 		    cnt++;
 		    if(cnt == 20) {

@@ -10,7 +10,10 @@ void Engine::Start()
 
 	//Start draw thread
 	gfx.Init();
+
+	//For profiling: run GFX on THIS thread!!
 	OS->NewThread((void*) GFX::GFXThread, "gfx", 1024, NULL, 1, gfxThread);
+	//GFX::GFXThread(NULL);
 
 	//Start sound thread
 

@@ -5,13 +5,18 @@
 
 #define DISPLAY_WIDTH 320
 #define DISPLAY_HEIGHT 240
+//#define DISPLAY_WIDTH 600
+//#define DISPLAY_HEIGHT 480
 
-static inline void CheckSDL(int expr, std::string err)  {
+static inline bool CheckSDL(int expr, std::string err)  {
 	if( (expr) != 0) { 
 		std::cerr << err << "failed!" << std::endl; 
 		std::cerr << SDL_GetError() << std::endl; 
+		return false;
 	}
+	return true;
 }
+
 SDLDisplayDriver::SDLDisplayDriver()
 {
 	displayInfo.color_format = ColorFormat::R8G8B8;
@@ -58,8 +63,10 @@ bool SDLDisplayDriver::Initialize()
 	ScreenTexture = 
 		SDL_CreateTexture(
 			Main_Renderer, 
-			//SDL_PIXELFORMAT_RGBA8888, 
+			//SDL_PIXELFORMAT_RGBA8888,
 			SDL_PIXELFORMAT_ABGR8888,
+			//SDL_PIXELFORMAT_ARGB8888,
+			//SDL_PIXELFORMAT_ABGR32,
 			SDL_TEXTUREACCESS_STREAMING, 
 			displayInfo.width, displayInfo.height);
 
@@ -92,33 +99,100 @@ void SDLDisplayDriver::DrawFramebuffer()
 
 void SDLDisplayDriver::DrawBitmap(int x, int y, const uint8_t * data, int width, int height, ColorFormat source_format, BlendMode blend_mode)
 {
+	/* alternative method using locking textures */
+
+	//Which part of the texture to we have to update?
+
+	//from source image
+	int srcX = 0, srcY = 0, srcW = width, srcH = height;
+
+	//for destination texture
+
 	SDL_Rect r;
 	r.x = x;
 	r.y = y;
 	r.w = width;
 	r.h = height;
 
+	//std::cout << "original (x,y,w,h) = " << r.x << "," << r.y << "," << r.w <<","<<r.h << std::endl;
+
+	/*if(r.x + r.w < 0 && r.y + r.h < 0) {
+		//not on the left side of the screen
+		return;
+	}*/
+
 	//clipping
-	if(r.x < 0) { r.w += r.x; r.x = 0; }
-	if(r.y < 0) { r.h += r.y; r.y = 0; }
-	if(r.x + r.w > DISPLAY_WIDTH)
-		r.w = DISPLAY_WIDTH - x;
-	if(r.y + r.h > DISPLAY_HEIGHT)
-		r.h = DISPLAY_HEIGHT - y;
+	if(r.x + r.w > DISPLAY_WIDTH) {
+		r.w = DISPLAY_WIDTH - r.x;
+	}
+
+	if(r.y + r.h > DISPLAY_HEIGHT) {
+		r.h = DISPLAY_HEIGHT - r.y;
+	}
+	if(r.x < 0) { r.w += r.x; srcX = -r.x; r.x = 0;  }
+	if(r.y < 0) { r.h += r.y; srcY = -r.y; r.y = 0; }
+
 
 	//std::cout << "(x,y,w,h) = " << r.x << "," << r.y << "," << r.w <<","<<r.h << std::endl;
 	//std::cout << "texture pitch: " << texturePitch << std::endl;
-	CheckSDL(SDL_UpdateTexture(ScreenTexture, &r, data, 4 * width ), "UpdateTexture");
+	/*CheckSDL(SDL_UpdateTexture(ScreenTexture, &r, data, 4 * width ), "UpdateTexture");
+	*/
+
+	uint32_t* pRGB = (uint32_t*) lockedPixels;
+	uint32_t* pD2 = (uint32_t*) data;
+	int savedStart = srcX;
+//#pragma omp parallel for
+	for(int curY = r.y; curY < r.y + r.h; curY++) {
+		srcX = savedStart;
+
+		uint32_t pixelPos = curY * DISPLAY_WIDTH + r.x;
+		size_t numPixels = (r.w) * 4;
+		uint32_t srcPos = srcY * width + srcX;
+
+		//copy the entire row into the framebuffer..
+		memcpy(&pRGB[pixelPos], &pD2[srcPos], numPixels);
+		srcX += r.w;
+
+		/*for(int curX = r.x; curX < r.x + r.w; curX++) {
+			uint32_t pixelPos = curY * DISPLAY_WIDTH + curX;
+			uint32_t srcPos = srcY * width + srcX;
+
+			uint32_t srcPixel = ((uint32_t*)data)[srcPos];
+
+			uint32_t convertedPixel = le32toh(srcPixel);
+
+#if 0
+			std::cout
+				<< "Copy from src " << srcX << "," << srcY
+				<< " to dest " << curX << "," << curY
+				<< " src pos " << srcPos << " dest pos " << pixelPos
+				<< " pitch " << pitch;
+			//	<< std::endl;
+
+			std::cout.flush();
+			printf(" pixel %08x\n", srcPixel);
+#endif
+
+			pRGB[pixelPos] = convertedPixel;
+			srcX++;
+		}*/
+		srcY++;
+	}
+
+	SDL_UnlockTexture(ScreenTexture);
 }
-
-const static uint32_t bigZeroBuf[1920*1080] = {0};
-
 
 void SDLDisplayDriver::ClearFramebuffer()
 {
-	//SDL_SetRenderDrawColor(Main_Renderer, 0 , 0 , 0, 0);
-	//SDL_RenderDrawRect(Main_Renderer, NULL);
-	DrawBitmap(0,0, (const uint8_t*)bigZeroBuf, displayInfo.width, displayInfo.height, ColorFormat::R8G8B8A8, BlendMode::Overwrite);
+	/*void* pixels;
+	int pitch;
+	//Try to lock the entire screen texture
+	if(!CheckSDL(SDL_LockTexture(ScreenTexture, NULL, &pixels, &pitch),"Locktexture")) {
+		return;
+	}*/
+	memset(lockedPixels, 0x00, DISPLAY_WIDTH * lockedPitch);
+	//SDL_UnlockTexture(ScreenTexture);
+	//SDL_RenderClear(Main_Renderer);
 }
 
 
@@ -130,8 +204,27 @@ void SDLDisplayDriver::Destroy()
 	std::cout << "Destroying window now " << std::endl;
 
 	// Close and destroy the window
+	SDL_DestroyTexture(ScreenTexture);
+	SDL_DestroyRenderer(Main_Renderer);
 	SDL_DestroyWindow(window);
 
 	// Clean up
 	SDL_Quit();
+}
+
+void SDLDisplayDriver::BeginDraw() {
+	void* pixels;
+	int pitch;
+
+	//Try to lock the entire screen texture
+	if(!CheckSDL(SDL_LockTexture(ScreenTexture, NULL, &pixels, &pitch),"Locktexture")) {
+		return;
+	}
+
+	lockedPixels = pixels;
+	lockedPitch = pitch;
+}
+
+void SDLDisplayDriver::EndDraw() {
+	SDL_UnlockTexture(ScreenTexture);
 }

@@ -9,15 +9,12 @@ class Sprite
 {
 public:
 
-	static Sprite FromPNG(const char* path) {
-		//TODO: PNG decoding
-		return Sprite(NULL, 0, 0, ColorFormat::R8G8B8);
-	}
+	static Sprite* FromPNG(const char* path);
 
 	Sprite(const void* pixelData, int width, int height,
-	ColorFormat colorFormat) :
+	ColorFormat colorFormat, bool free=false) :
 		pixelData(pixelData), width(width), height(height),
-		colorFormat(colorFormat) { }
+		colorFormat(colorFormat), freeData(free){ }
 
 	/* Memory management? who deallocates sprite data? */
 	~Sprite();
@@ -31,5 +28,6 @@ private:
 	const void* pixelData;
 	int width, height;
 	ColorFormat colorFormat;
+	bool freeData;
 };
 
