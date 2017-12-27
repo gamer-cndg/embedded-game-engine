@@ -3,8 +3,10 @@
 #include "Vector2.hpp"
 #include "Sprite.h"
 #include "Behaviour.h"
+#include "Animation.h"
 #include <vector>
 #include <string.h>
+#include <iostream>
 
 class GameObject
 {
@@ -13,6 +15,22 @@ public:
 	int spriteID;
 	char instanceName[10];
 	int layer;
+	Animation anim;
+	bool usesAnim;
+
+	int GetSpriteID() {
+		if(usesAnim) {
+			//std::cout << "Using anim " << anim.GetString() << std::endl;
+			return anim.CurrentFrame();
+		}
+		else
+			return spriteID;
+	}
+
+	void ProcessAnimation() {
+		if(usesAnim)
+			anim.Advance();
+	}
 
 	void AddScript(Behaviour* b) {
 		b->SetGameObject(this);
@@ -48,4 +66,3 @@ public:
 private:
 	std::vector<Behaviour*> scripts;
 };
-

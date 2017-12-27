@@ -1,10 +1,12 @@
 #include <iostream>
+#include <vector>
 #include <SDL.h>
 #include "Engine.h"
 #include "Scene.h"
 #include "SceneManager.h"
 #include "Input.h"
 #include "Asset.h"
+#include "Camera.h"
 
 /* Include platform specific implementations */
 //#include "WindowsOSDriver.h"
@@ -18,12 +20,33 @@ uint32_t myRect[20 * 20] = { 0 };
 //right side
 uint32_t myRect2[800 * 300] = { 0 };
 
+std::vector<int> LoadAnims(const char* basepath, int numAnims) {
+	char baseBuf[100];
+	std::vector<int> spriteIDs;
+	for(int i=0; i < numAnims; i++) {
+		snprintf(baseBuf, sizeof(baseBuf), "%s (%d).png", basepath, (i+1));
+		int id = (SpriteManager::RegisterSprite(Sprite::FromPNG(baseBuf)));
+		std::cout << "Loaded sprite id " << id << std::endl;
+		spriteIDs.push_back(id);
+	}
+	return spriteIDs;
+}
+
+
 class MoveBehavior: public Behaviour {
 public:
 	void Update() {
 		Vector2 move = Input::GetGamepad(0)->ReadMovement();
 		//std::cout << "movement: " << move.X << "," << move.Y << std::endl;
-		gameObject->position += move * Time::DeltaTime * 100;
+
+		if(Input::GetGamepad(0)->IsButtonDown(GamePadButton::A))
+			gameObject->position += move * Time::DeltaTime * 100;
+		else
+			Camera::position += move * Time::DeltaTime * 100;
+
+		//Move object, make camera look at game object
+		//gameObject->position += move * Time::DeltaTime * 100;
+		//Camera::position = gameObject->position;
 	}
 };
 
@@ -43,9 +66,22 @@ public:
 		AddObject(g);
 
 		//Add another copy to the scene
-		GameObject* g2 = a.Instantiate(Vector2(50,50));
+		/*GameObject* g2 = a.Instantiate(Vector2(50,50));
 		g2->layer = 1; //Draw this object *over* the player
-		AddObject(g2);
+		AddObject(g2);*/
+
+		//Create an asset with the animated santa claus
+		std::vector<int> anims = LoadAnims("/home/pi/Downloads/png/Idle", 12);
+		std::cout << "Printing returned ids " ;
+		for(int id : anims) {
+			std::cout << id << " ";
+		}
+		std::cout << endl;
+		Animation idleAnim(anims, 50 / 1000.0f, true);
+		std::cout << "Loaded anim " << idleAnim.GetString() << std::endl;
+
+		Asset santaClaus(idleAnim, "santa", 1);
+		AddObject(santaClaus.Instantiate(Vector2(50,50)));
 	}
 };
 

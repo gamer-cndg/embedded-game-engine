@@ -3,10 +3,15 @@
 #include <iostream>
 #include <stdio.h>
 
+//#define BIG_DISPLAY
+
+#ifndef BIG_DISPLAY
 #define DISPLAY_WIDTH 320
 #define DISPLAY_HEIGHT 240
-//#define DISPLAY_WIDTH 600
-//#define DISPLAY_HEIGHT 480
+#else
+#define DISPLAY_WIDTH 600
+#define DISPLAY_HEIGHT 480
+#endif
 
 static inline bool CheckSDL(int expr, std::string err)  {
 	if( (expr) != 0) { 

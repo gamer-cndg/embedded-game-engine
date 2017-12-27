@@ -11,6 +11,8 @@
 #include "Input.h" /* experimental */
 #include <chrono> /* for FPS measurement */
 #include "Time.h"
+#include "Camera.h"
+
 using namespace std;
 using namespace std::chrono;
 
@@ -27,9 +29,9 @@ public:
 
 	static void DrawGameObject(GameObject* g) {
 		//Get the sprite
-		Sprite* s = SpriteManager::GetSprite(g->spriteID);
+		Sprite* s = SpriteManager::GetSprite(g->GetSpriteID());
 		if(s == nullptr){
-			std::cout << "Gameobject has no sprite assigned!" << std::endl;
+			std::cout << "Gameobject has no sprite assigned! ID " << g->GetSpriteID() << std::endl;
 			return;
 		}
 
@@ -48,8 +50,10 @@ public:
 				<< std::endl;
 #endif
 
-		//Test: do scripts processing in GFX thread..
-		g->ProcessScripts();
+		//Subtract camera position from it to
+		//"move" objects
+		x -= (int)Camera::position.X;
+		y -= (int)Camera::position.Y;
 
 		//Draw its sprite in the buffer.
 		displayDriver->DrawBitmap(
@@ -75,12 +79,17 @@ public:
 		//std::sort(v2.begin(), v2.end(), GameObject::SortByLayer);
 		//TODO: above soting would be better, but it doesn't
 		//work. how can this be made more efficient?
-
 		for(int i=0; i < LAYERS_MAX; i++) {
 			for(GameObject* g : *gameObjects) {
 				if(g->layer == i)
 					DrawGameObject(g);
 			}
+		}
+
+		//Test: do scripts processing in GFX thread..
+		for(GameObject* g : *gameObjects) {
+			g->ProcessScripts();
+			g->ProcessAnimation();
 		}
 	}
 
