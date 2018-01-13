@@ -3,7 +3,7 @@
 #include <iostream>
 #include <stdio.h>
 
-//#define BIG_DISPLAY
+#define BIG_DISPLAY
 
 #ifndef BIG_DISPLAY
 #define DISPLAY_WIDTH 320
@@ -225,7 +225,7 @@ void SDLDisplayDriver::ClearFramebuffer()
 	if(!CheckSDL(SDL_LockTexture(ScreenTexture, NULL, &pixels, &pitch),"Locktexture")) {
 		return;
 	}*/
-	memset(lockedPixels, 0x00, DISPLAY_WIDTH * lockedPitch);
+	memset(lockedPixels, 0x00, DISPLAY_HEIGHT * lockedPitch);
 	//SDL_UnlockTexture(ScreenTexture);
 	//SDL_RenderClear(Main_Renderer);
 }

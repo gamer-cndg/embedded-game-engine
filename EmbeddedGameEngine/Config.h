@@ -16,7 +16,7 @@
 #define OS_ESP32	3
 
 /* select the OS we are running on */
-#define ENGINE_OS OS_LINUX
-
+//#define ENGINE_OS OS_LINUX
+#define ENGINE_OS OS_WINDOWS
 
 #endif /* CONFIG_H_ */

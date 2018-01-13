@@ -2,7 +2,7 @@
 
 #include "InputDriver.h"
 #include <stdlib.h>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <iostream>
 
 struct SDLKeyMap {

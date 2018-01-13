@@ -9,11 +9,18 @@
 #include "Camera.h"
 
 /* Include platform specific implementations */
-//#include "WindowsOSDriver.h"
-#include "LinuxOSDriver.h"
+#include "WindowsOSDriver.h"
+//#include "LinuxOSDriver.h"
 #include "SDLDisplayDriver.h"
 #include "SDLInputDriver.h"
 #include "SDLSoundDriver.h"
+
+//#define ANIM_BASE_PATH "/home/pi/Downloads/png/Idle"
+//#define TEST_PNG "/home/pi/Downloads/png/Idle (1).png"
+
+#define ANIM_BASE_PATH "C:\\Users\\Maxi\\Downloads\\santasprites\\png\\Idle"
+#define TEST_PNG "C:\\Users\\Maxi\\Downloads\\santasprites\\png\\Idle (1).png"
+
 
 //left side
 uint32_t myRect[20 * 20] = { 0 };
@@ -56,7 +63,7 @@ public:
 	void InitScene() {
 		//Register all Sprites
 		//Sprite* redRect = new Sprite((void*)myRect, 20, 20, ColorFormat::R8G8B8A8);
-		Sprite* redRect = Sprite::FromPNG("/home/pi/Downloads/png/Idle (1).png");
+		Sprite* redRect = Sprite::FromPNG(TEST_PNG);
 		int redRectId = SpriteManager::RegisterSprite(redRect);
 
 		//Construct a test game object and sprite
@@ -71,7 +78,7 @@ public:
 		AddObject(g2);*/
 
 		//Create an asset with the animated santa claus
-		std::vector<int> anims = LoadAnims("/home/pi/Downloads/png/Idle", 12);
+		std::vector<int> anims = LoadAnims(ANIM_BASE_PATH, 12);
 		std::cout << "Printing returned ids " ;
 		for(int id : anims) {
 			std::cout << id << " ";
@@ -85,7 +92,8 @@ public:
 	}
 };
 
-LinuxOSDriver osDriver;
+//LinuxOSDriver osDriver;
+WindowsOSDriver osDriver;
 SDLDisplayDriver sdlDisplayDriver;
 SDLInputDriver sdlInputDriver;
 SDLSoundDriver sdlSoundDriver;

@@ -129,6 +129,15 @@
     <ClCompile Include="GlobalSystems.cpp">
       <Filter>Quelldateien\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="SpriteManager.cpp">
+      <Filter>Quelldateien\GFX</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>Quelldateien\GameLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="lodepng.cpp">
+      <Filter>Quelldateien\GFX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GFX.h">
@@ -220,6 +229,15 @@
     </ClInclude>
     <ClInclude Include="GlobalSystems.h">
       <Filter>Quelldateien\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteManager.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="lodepng.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

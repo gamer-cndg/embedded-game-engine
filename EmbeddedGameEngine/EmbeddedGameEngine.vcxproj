@@ -79,6 +79,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,10 +135,13 @@
     <ClCompile Include="GlobalSystems.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputDriver.cpp" />
+    <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MessageBus.cpp" />
     <ClCompile Include="OSDriver.cpp" />
     <ClCompile Include="pipe.c" />
+    <ClCompile Include="SpriteManager.cpp" />
+    <ClCompile Include="Time.cpp" />
     <ClCompile Include="WindowsOSDriver.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -162,8 +166,11 @@
     <ClInclude Include="GlobalSystems.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputDriver.h" />
+    <ClInclude Include="lodepng.h" />
     <ClInclude Include="Matrix3x3.hpp" />
     <ClInclude Include="MessageBus.h" />
+    <ClInclude Include="SpriteManager.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="WindowsOSDriver.h" />
     <ClInclude Include="OSDriver.h" />
     <ClInclude Include="OSTypes.h" />
